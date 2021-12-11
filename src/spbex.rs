@@ -72,9 +72,10 @@ async fn get_ticker_data(ticker: &str) -> Result<SpbexResponse, Box<dyn std::err
     let range = get_ranges();
     let url = get_url_day_resolution(ticker, &range);
     let response = reqwest::get(&url).await?;
-    let mut text = response.text().await?;
-    text = text.replace("\\", "");
-    text = text[1..text.len() - 1].to_owned();
-    let data: SpbexResponse = serde_json::from_str(&text).unwrap();
+    let text = response
+                            .text()
+                            .await?
+                            .replace("\\", "");
+    let data: SpbexResponse = serde_json::from_str(&text[1..text.len() - 1]).unwrap();
     Ok(data)
 }
