@@ -1,8 +1,8 @@
 #[macro_use]
 extern crate rocket;
-use std::vec;
 use kquotes::constants;
 use kquotes::quotes_route;
+use std::vec;
 
 #[catch(404)]
 fn not_found() -> String {
@@ -11,15 +11,9 @@ fn not_found() -> String {
 
 #[launch]
 fn rocket() -> _ {
+    let routes = routes![quotes_route::quotes];
 
-    let routes = routes![
-        quotes_route::quotes
-    ];
-
-    let catchers = catchers![
-        not_found
-    ];
-
+    let catchers = catchers![not_found];
 
     rocket::build()
         .mount(constants::ROOT, routes)

@@ -9,15 +9,14 @@ use crate::history::HistoryEntry;
 pub async fn get_ticker(ticker: &str) -> Result<Vec<HistoryEntry>, Box<dyn std::error::Error>> {
     let data = get_ticker_data(ticker).await?;
     let out = izip!(&data.t, &data.h, &data.l, &data.c)
-                                        .map(|(t, h, l, c)| 
-                                            HistoryEntry {
-                                                date: convert_timestamp(*t), 
-                                                close: *c,
-                                                high: *h,
-                                                low: *l,
-                                                volume: 0
-                                            })
-                                        .collect();
+        .map(|(t, h, l, c)| HistoryEntry {
+            date: convert_timestamp(*t),
+            close: *c,
+            high: *h,
+            low: *l,
+            volume: 0,
+        })
+        .collect();
     Ok(out)
 }
 
@@ -72,10 +71,7 @@ async fn get_ticker_data(ticker: &str) -> Result<SpbexResponse, Box<dyn std::err
     let range = get_ranges();
     let url = get_url_day_resolution(ticker, &range);
     let response = reqwest::get(&url).await?;
-    let text = response
-                            .text()
-                            .await?
-                            .replace("\\", "");
+    let text = response.text().await?.replace("\\", "");
     let data: SpbexResponse = serde_json::from_str(&text[1..text.len() - 1]).unwrap();
     Ok(data)
 }
