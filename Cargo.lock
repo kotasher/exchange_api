@@ -654,6 +654,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "kquotes"
+version = "0.1.0"
+dependencies = [
+ "cached",
+ "chrono",
+ "itertools",
+ "reqwest",
+ "rocket",
+ "serde",
+ "serde_json",
+ "tokio",
+]
+
+[[package]]
 name = "lazy_static"
 version = "1.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -975,20 +989,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "38bc8cc6a5f2e3655e0899c1b848643b2562f853f114bfec7be120678e3ace05"
 dependencies = [
  "proc-macro2",
-]
-
-[[package]]
-name = "quotes"
-version = "0.1.0"
-dependencies = [
- "cached",
- "chrono",
- "itertools",
- "reqwest",
- "rocket",
- "serde",
- "serde_json",
- "tokio",
 ]
 
 [[package]]

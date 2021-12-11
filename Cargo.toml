@@ -1,7 +1,15 @@
 [package]
-name = "quotes"
+name = "kquotes"
 version = "0.1.0"
 edition = "2021"
+
+[lib]
+name = "kquotes"
+path = "src/lib.rs"
+
+[[bin]]
+name = "kquotes"
+path = "src/main.rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
