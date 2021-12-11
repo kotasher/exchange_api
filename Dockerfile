@@ -6,4 +6,4 @@ EXPOSE 8000
 
 WORKDIR /
 COPY target/x86_64-unknown-linux-musl/release/kquotes /usr/bin/kquotes
-ENTRYPOINT ["quotes"]
+ENTRYPOINT ["kquotes"]
