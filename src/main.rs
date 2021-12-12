@@ -9,11 +9,16 @@ fn not_found() -> String {
     constants::NOT_IMPLEMENTED.to_owned()
 }
 
+#[catch(500)]
+fn internal_error() -> String {
+    constants::NOT_IMPLEMENTED.to_owned()
+}
+
 #[launch]
 fn rocket() -> _ {
     let routes = routes![quotes_route::quotes];
 
-    let catchers = catchers![not_found];
+    let catchers = catchers![not_found, internal_error,];
 
     rocket::build()
         .mount(constants::ROOT, routes)

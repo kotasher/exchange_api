@@ -1,10 +1,9 @@
-use chrono::prelude::DateTime;
-use chrono::Local;
 use itertools::izip;
 use serde::Deserialize;
-use std::time::{Duration, SystemTime, UNIX_EPOCH};
+use std::time::{SystemTime, UNIX_EPOCH};
 
 use crate::history::HistoryEntry;
+use crate::utils::convert_timestamp;
 
 pub async fn get_ticker(ticker: &str) -> Result<Vec<HistoryEntry>, Box<dyn std::error::Error>> {
     let data = get_ticker_data(ticker).await?;
@@ -57,14 +56,9 @@ fn get_url(ticker: &str, resolution: &str, range: &SpbexDurationRange) -> String
     )
 }
 
+#[inline(always)]
 fn get_url_day_resolution(ticker: &str, range: &SpbexDurationRange) -> String {
     get_url(ticker, "D", range)
-}
-
-fn convert_timestamp(timestamp: i64) -> String {
-    let date = UNIX_EPOCH + Duration::from_secs(timestamp as u64);
-    let datetime = DateTime::<Local>::from(date);
-    datetime.format("%d.%m.%Y").to_string()
 }
 
 async fn get_ticker_data(ticker: &str) -> Result<SpbexResponse, Box<dyn std::error::Error>> {
@@ -74,4 +68,34 @@ async fn get_ticker_data(ticker: &str) -> Result<SpbexResponse, Box<dyn std::err
     let text = response.text().await?.replace("\\", "");
     let data: SpbexResponse = serde_json::from_str(&text[1..text.len() - 1]).unwrap();
     Ok(data)
+}
+
+#[cfg(test)]
+mod tests {
+
+    #[test]
+    fn get_url_day_resolution_test() {
+        use crate::spbex::{get_ranges, get_url_day_resolution};
+        let range = get_ranges();
+        let left = format!(
+            "https://investcab.ru/api/chistory?symbol=IBM&resolution=D&from={from}&to={to}",
+            from = range.start,
+            to = range.end,
+        );
+        let right = get_url_day_resolution("IBM", &range);
+        assert_eq!(left, right);
+    }
+
+    #[test]
+    fn get_url_test() {
+        use crate::spbex::{get_ranges, get_url};
+        let range = get_ranges();
+        let left = format!(
+            "https://investcab.ru/api/chistory?symbol=IBM&resolution=M&from={from}&to={to}",
+            from = range.start,
+            to = range.end,
+        );
+        let right = get_url("IBM", "M", &range);
+        assert_eq!(left, right);
+    }
 }

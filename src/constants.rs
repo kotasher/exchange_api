@@ -1,2 +1,2 @@
-pub static NOT_IMPLEMENTED: &str = "Not implemented";
-pub static ROOT: &str = "/";
+pub static NOT_IMPLEMENTED: &'static str = "Not implemented";
+pub static ROOT: &'static str = "/";
