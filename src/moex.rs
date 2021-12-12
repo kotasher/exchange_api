@@ -6,7 +6,6 @@ static BASE_URL: &'static str = "https://iss.moex.com";
 
 pub async fn get_ticker(ticker: &str) -> Result<Vec<HistoryEntry>, Box<dyn std::error::Error>> {
     let security = get_security_parameters(ticker).await?;
-    println!("{:?}", security);
 
     let mut start = 0;
     let mut out: Vec<HistoryEntry> = Vec::new();
