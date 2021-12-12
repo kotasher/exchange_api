@@ -6,6 +6,9 @@ build:
 debug_run:
 	ROCKET_ADDRESS=0.0.0.0 cargo run
 
+test:
+	cargo test
+
 clean:
 	rm -rf target
 	podman system prune --all --force
