@@ -14,8 +14,6 @@ pub async fn quotes(exchange: String, ticker: String) -> String {
 async fn cached_quotes(exchange: String, ticker: String) -> String {
     match exchange.as_str() {
         "moex" => {
-            // let data = moex::get_security_parameters(&ticker).await.unwrap();
-            // format!("{:?}", data)
             let data = moex::get_ticker(&ticker).await.unwrap();
             serde_json::to_string(&data).unwrap()
         }
